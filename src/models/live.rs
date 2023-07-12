@@ -1,4 +1,6 @@
-use crate::{live_json::LiveJson, my_error::MyError};
+use super::{live_json, my_error};
+use live_json::LiveJson;
+use my_error::MyError;
 use std::time::Duration;
 
 pub async fn check_live_async(room_id: u64, duration: Duration) -> Result<bool, MyError> {
@@ -6,7 +8,7 @@ pub async fn check_live_async(room_id: u64, duration: Duration) -> Result<bool, 
         "https://api.live.bilibili.com/room/v1/Room/get_info?room_id={}",
         room_id
     );
-    let response = match reqwest::Client::new().get(url).send().await{
+    let response = match reqwest::Client::new().get(url).send().await {
         Ok(response) => response,
         Err(e) => {
             return Err(MyError::Api(e));
